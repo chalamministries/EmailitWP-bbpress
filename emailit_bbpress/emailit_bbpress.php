@@ -15,6 +15,11 @@ if (!defined('ABSPATH')) {
 	exit;
 }
 
+if (!class_exists('EmailIt_bbpress_Plugin_Updater')) {
+	require_once plugin_dir_path(__FILE__) . 'class-emailit-updater.php';
+}
+
+
 class EmailItBBPress {
 	private static $instance = null;
 	
@@ -28,6 +33,10 @@ class EmailItBBPress {
 	private function __construct() {
 		add_action('plugins_loaded', [$this, 'init']);
 		add_action('emailit_register_tabs', [$this, 'register_bbpress_tab']);
+		
+		if (is_admin()) {
+		   new EmailIt_bbpress_Plugin_Updater(__FILE__, 'chalamministries', 'EmailitWP-bbpress');
+	   }
 	}
 	
 	public function register_bbpress_tab() {
