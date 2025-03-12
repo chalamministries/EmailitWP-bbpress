@@ -3,7 +3,7 @@
 Plugin Name: EmailIt BBPress Integration
 Plugin URI: 
 Description: BBPress integration for EmailIt Mailer
-Version: 1.7
+Version: 2.0
 Author: Steven Gauerke
 Requires at least: 5.8
 Requires PHP: 7.4
@@ -71,7 +71,7 @@ class EmailItBBPress {
 			$missing_plugins[] = 'BBPress';
 		}
 
-		if (!is_plugin_active('emailit_mailer/emailit_mailer.php')) {
+		if (!is_plugin_active('EmailitWP-main/emailit_mailer.php')) {
 			$missing_plugins[] = 'EmailIt Mailer';
 		}
 
@@ -179,8 +179,8 @@ class EmailItBBPress {
 					'message' => $html_message,
 					'headers' => [
 						'Content-Type: text/html; charset=UTF-8',
-						'X-bbPress: ' . bbp_get_version(),
-						'From: ' . get_bloginfo('name') . ' <noreply@' . parse_url(home_url(), PHP_URL_HOST) . '>'
+						'X-EmailIt-Source: BBPress',
+						'X-bbPress: ' . bbp_get_version()
 					],
 					'text_message' => $text_message
 				]]
