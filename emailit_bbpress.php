@@ -3,7 +3,7 @@
 Plugin Name: EmailIt BBPress Integration
 Plugin URI: 
 Description: BBPress integration for EmailIt Mailer
-Version: 2.1
+Version: 2.2
 Author: Steven Gauerke
 Requires at least: 5.8
 Requires PHP: 7.4
@@ -159,7 +159,7 @@ class EmailItBBPress {
 		]);
 		
 		// Batch size - how many emails to process in each cron job
-		$batch_size = 10;
+		$batch_size = 50;
 		
 		// Split recipients into batches and schedule a job for each batch
 		$batches = array_chunk($recipients, $batch_size);
