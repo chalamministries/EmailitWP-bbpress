@@ -85,6 +85,22 @@ Both templates include:
 - Direct links to the content
 - Unsubscribe instructions
 
+### EmailIt SDK v2 Integration (Jan 2026)
+
+The plugin now targets the EmailIt PHP SDK v2 release (Jan 31, 2026 build):
+
+- Uses `EmailItClient::sendEmail()` with the v2 `/emails` endpoint and the fluent `EmailBuilder` helpers when available
+- Pulls account metadata via the new `DomainManager` (`EmailItClient::domains()`) and `ApiKeyManager` (`EmailItClient::apiKeys()`) accessors to capture verified domain and API key label context
+- Normalizes TO/CC/BCC recipients (deduped) before dispatch and exposes filters for custom audiences:
+  - `emailit_bbpress_bcc_addresses`
+  - `emailit_bbpress_cc_addresses`
+  - `emailit_bbpress_sdk_payload`
+  - `emailit_bbpress_account_cache`
+- Schedules batches on the dedicated `emailit_bbpress_process_batch` cron hook to keep legacy queues untouched while providing a fallback that still proxies to the historic `emailit_process_email_batch` action when the new SDK is not present
+- Automatically augments payload metadata with `emailit_account` details (verified domain, API key label) for downstream observability
+
+These updates remove the dependency on deprecated `sendingDomains()` / `credentials()` accessors, eliminate the `sendEmailRequest` helper, and ensure BCC lists are fully supported end-to-end.
+
 ## Troubleshooting
 
 ### Common Issues
